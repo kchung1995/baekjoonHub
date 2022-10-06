@@ -1,40 +1,55 @@
+// 문제 링크: https://www.acmicpc.net/problem/21921
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
-int main() {
+int n, x;
+int views[250000];
 
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
-
-	int n, x;
+void init() {
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> n >> x;
-	int sum = 0;
-	int arr[250000];
-	for (int i = 0; i < x; i++) {
-		cin >> arr[i];
-		sum += arr[i];
+	for (int i = 0; i < n; i++) {
+		cin >> views[i];
 	}
-	int answer = sum;
-	int cnt = 1;
+}
+
+void simulate() {
+	int viewMax = 0;
+	int sum = 0;
+	int viewMaxCount = 1;
+
+	// 맨 앞 x일의 누적 조회수를 구한다.
+	for (int i = 0; i < x; i++) {
+		sum += views[i];
+	}
+	viewMax = sum;
+
+	// 투포인터를 이용하여 날짜를 하루씩 더하고 빼며 탐색
 	for (int i = x; i < n; i++) {
-		cin >> arr[i];
-		sum += arr[i] - arr[i - x];
-		if (sum >= answer) {
-			if (sum == answer) {
-				cnt++;
-			}
-			else {
-				answer = sum;
-				cnt = 1;
-			}
+		sum -= views[i - x];
+		sum += views[i];
+
+		if (sum > viewMax) {
+			viewMax = sum;
+			viewMaxCount = 1;
+		}
+		else if (sum == viewMax) {
+			viewMaxCount++;
 		}
 	}
-	if (answer == 0) {
+
+	// 결과 출력
+	if (viewMax == 0) {
 		cout << "SAD";
 	}
-	else
-		cout << answer << '\n' << cnt;
+	else {
+		cout << viewMax << '\n' << viewMaxCount;
+	}
+}
+
+int main() {
+	init();
+	simulate();
 	return 0;
 }
