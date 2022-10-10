@@ -18,6 +18,9 @@ void init() {
     }
 }
 
+/**
+ 최대값 구하기
+ */
 int getMaxVal(int left, int right) {
     int answer = -1;
     for (int i = left; i <= right; i++) {
@@ -27,15 +30,13 @@ int getMaxVal(int left, int right) {
 }
 
 void solution() {
-    // 먼저 사용할 수 있는 스트릭 프리즈의 갯수를 구한다.
+    // 먼저 사용할 수 있는 스트릭 프리즈의 갯수를 구한다. 프리즈는 최대 2개까지 사용 가능.
     int freeze = 0;
     if (coin < 0.99) freeze = 0;
     else if (coin < 1.98) freeze = 1;
     else freeze = 2;
     
     int maxStreak = -1;
-    int maxQuestion = -1;
-    vector<int> streakList;
 
     int left = 0, right = 0;
     int currentStreakFreeze = freeze;
@@ -46,10 +47,7 @@ void solution() {
             // 만약 스트릭 프리즈가 남았다면
             if (currentStreakFreeze > 0) {
                 currentStreakFreeze--;
-                if (right - left + 1 > maxStreak) {
-                    maxStreak = right - left + 1;
-                    maxQuestion = max(maxQuestion, getMaxVal(left, right));
-                }
+                maxStreak = max(maxStreak, right - left + 1);
                 right++;
             }
             // 만약 스트릭 프리즈가 없다면
@@ -68,17 +66,14 @@ void solution() {
         }
         // 해당 날에 문제를 풀었다면
         else {
-            if (right - left + 1 > maxStreak) {
-                maxStreak = right - left + 1;
-                maxQuestion = max(maxQuestion, getMaxVal(left, right));
-            }
+            maxStreak = max(maxStreak, right - left + 1);
             right++;
         }
         
+        // 종료 조건
         if (right == n) break;
     }
     
-//    cout << maxStreak << '\n' << maxQuestion;
     cout << maxStreak << '\n' << getMaxVal(0, n - 1);
     return;
 }
