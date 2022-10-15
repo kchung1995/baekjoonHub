@@ -22,28 +22,16 @@ int simulate() {
     // 각 게임에 필요한 사람들의 수를 정의에 따라 구한다.
     switch(y) {
         case 'Y':
-            div = 2; break;
+            div = 1; break;
         case 'F':
-            div = 3; break;
+            div = 2; break;
         case 'O':
-            div = 4; break;
+            div = 3; break;
         default:
             break;
     }
     
-    int answer = 0;
-    int collected = 0;
-    
-    for (auto &next : candidates) {
-        collected++;
-        // 만약 게임 시작을 위한 인원수가 다 모였다면
-        if ((collected + 1) % div == 0) {
-            answer++;
-            collected = 0;
-        }
-    }
-    
-    return answer;
+    return candidates.size() / div;
 }
 
 int main() {
