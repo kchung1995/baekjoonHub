@@ -7,7 +7,6 @@ using namespace std;
 
 int m, n, h;
 int grid[MAX_N][MAX_N][MAX_N];
-bool visited[MAX_N][MAX_N][MAX_N] = {0, };
 queue<pair<int, pair<int, int> > > q;   // [x, [y, h]]
 bool allTomatoesRedFromInit = true;
 
@@ -69,7 +68,6 @@ int simulate() {
             // 아직 안 익은 토마토의 경우 (방문한 적 없음)
             if (grid[nx][ny][nh] == 0) {
                 grid[nx][ny][nh] = grid[cx][cy][ch] + 1;
-                visited[nx][ny][nh] = true;
                 q.push({nx, {ny, nh}});
             }
             // 날짜가 지나며 익은 토마토의 경우 (방문한 적 있음)
